@@ -1,0 +1,4 @@
+ Configurer les champs de formulaire
+
+ Pour utiliser le theme formulaire de bootstrap il faut juste configuer le fichier twig.yaml et
+ ajouter cette ligne: form_themes: ['bootstrap_4_layout.html.twig']
