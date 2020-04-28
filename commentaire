@@ -2,3 +2,58 @@
 
  Pour utiliser le theme formulaire de bootstrap il faut juste configuer le fichier twig.yaml et
  ajouter cette ligne: form_themes: ['bootstrap_4_layout.html.twig']
+
+
+ Validation des formulaires:
+
+ use Symfony\Component\Validator\Constraints as Assert;
+
+ Ex: /**
+          * @ORM\Column(type="string", length=255)
+          * @Assert\Length(min=10, max=255, minMessage="Le titre doit faire plus de 10 caractères !", maxMessage="Le titre ne peut pas faire plus de 255 caractères !")
+          */
+         private $title;
+
+
+* @Assert\NotBlank()   Permet de rendre un champs obligatoire
+
+METTRE EN PLACE LE MOT DE PASSE DE CONFIRMATION
+
+Ajouter dans le fichier Type (formulaire)
+->add('passwordConfirm', PasswordType::class, $this->getConfiguration("Confirmation du mot de passe", "Veuillez confirmé votre mot de passe"))
+
+Créer une propriété public ou privé->(avec getter et setter). Il ne faut pas ajouter d'annotation ORM car les annotation ORM de l'entité sont faites pour être
+comprise par la base de donnée.
+
+En revanche il faut ajouter l'annotation   * @Assert\EqualTo(propertyPath="hash", message="Vous n'avez pas correctement confirmé votre mot de passe !")
+ce qui permet de comparer egalité d'une entité présente dans la class
+
+
+
+
+Faire en sorte qu'une entité soit unique
+
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+ @UniqueEntity(
+ *     fields={"email"}
+ *     message="Un autre utilisateur s'est déja inscrit avec cette adresse email, merci de la modifier"
+ * )
+
+
+ Barre de navigation en fonction de la connexion ou non d'un utilisateur
+
+            <ul class="navbar-nav ml-auto">
+             {% if app.user %}
+             <li class="nav-item">
+                 <a href="{{ path('account_logout') }}" class="nav-link">Déconnexion</a>
+             </li>
+             {% else %}
+                 <li class="nav-item">
+                     <a href="{{ path('account_register') }}" class="nav-link">Inscription</a>
+                 </li>
+                 <li class="nav-item">
+                     <a href="{{ path('account_login') }}" class="nav-link">Connexion</a>
+                 </li>
+             {% endif %}
+         </ul>
