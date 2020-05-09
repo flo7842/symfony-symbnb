@@ -110,7 +110,7 @@
 {% endblock %}
 
 {% block _ad_images_entry_row %}
-    <div class="block_{{ id }}">
+    <div id="block_{{ id }}">
         {{ form_widget(form) }}
     </div>
 
@@ -122,6 +122,7 @@
 {% block _ad_images_entry_widget %}
     <div class="row align-items-center mb-5">
         <div class="col-4">
+            {{ form_row(form.url) }}
             {% if value %}
                 <img src="{{ value.url }}" class="img-fluid" alt="">
             {% endif %}
@@ -147,7 +148,6 @@
 
                 const target = this.dataset.target;
 
-                console.log(target);
                 $(target).remove();
             });
         });
